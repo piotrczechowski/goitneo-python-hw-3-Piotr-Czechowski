@@ -1,5 +1,5 @@
-from address_book.classes import Record
-from address_book.functions import AddressBook
+from address_book.classes import *
+from address_book.functions import *
 
 
 # Creation of a new address book 
@@ -9,9 +9,24 @@ book = AddressBook()
 john_record = Record("John")
 john_record.add_phone("1234567890")
 john_record.add_phone("5555555555")
+john_record.add_birthday("22.06.2222")
+
+irmiona_record = Record('Irmina')
+irmiona_record.add_birthday('22.11.2222')
+
+#get_birthdays_per_week(book)
+
 
 # Add a John entry to the address book
 book.add_record(john_record)
+book.add_record(irmiona_record)
+
+#list all recortds
+for name, record in book.data.items():
+    print(record)
+
+book.show_birthday("Irmina")
+'''
 
 # Creating and adding a new entry for Jane
 jane_record = Record("Jane")
@@ -40,3 +55,5 @@ book.delete("Jane")
 # Displaying all entries in the contact list after delete operation
 for name, record in book.data.items():
     print(record)
+
+'''
