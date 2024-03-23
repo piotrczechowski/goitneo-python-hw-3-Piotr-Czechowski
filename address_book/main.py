@@ -53,9 +53,11 @@ def main():
 
         elif command == "add-birthday":
             name, birthday = args
-            record.add_birthday_contact(name, birthday)
+            record = book.find(name)
+            if record:
+                record.add_birthday(birthday)
         else:
-            print("Invalid command.")
+            print("Contact not found.")
 
 if __name__ == "__main__":
     main()

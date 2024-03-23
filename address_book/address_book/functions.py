@@ -12,12 +12,7 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
     
-    def add_birthday_contact(self, name, birthday):
-        if name in self.data:
-            self.data[name].add_birthday_contact(birthday)
-            print("birthday added")
-        else:
-            raise ValueError('Contact not found')
+    
 
     def show_birthday(self, name):
         if name in self.data:

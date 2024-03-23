@@ -40,13 +40,20 @@ class Record:
             if str(phone) == old_phone:
                 self.phones[i] = Phone(new_phone)
                 break
-
+    
     def add_birthday(self, birthday):
         self.birthdays.append(Birthday(birthday))
+        
+    def add_birthday_contact(self, name, birthday):
+        if name in self.data:
+            self.data[name].add_birthday_contact(birthday)
+            print("birthday added")
+        else:
+            raise ValueError('Contact not found')
 
     def show_birthday(self, name):
         if name in self.data:
-            if self.data[name].birthdays:
+            if self.name[name].birthdays:
                 print(f"{name}: Birthdays - {', '.join(str(b) for b in self.data[name].birthdays)}")
             else:
                 print(f"{name}: No birthdays recorded.")
