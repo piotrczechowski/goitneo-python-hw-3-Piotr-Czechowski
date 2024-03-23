@@ -15,6 +15,7 @@ class AddressBook(UserDict):
     def add_birthday_contact(self, name, birthday):
         if name in self.data:
             self.data[name].add_birthday_contact(birthday)
+            print("birthday added")
         else:
             raise ValueError('Contact not found')
 
@@ -24,6 +25,18 @@ class AddressBook(UserDict):
             print(f"{record.name}: Birthdays - {', '.join(str(b) for b in record.birthdays)}")
         else:
             print("Contact not found")
+    
+    def show_all(self):
+        for record in self.data.values():
+            print(f"Name: {record.name}")
+            print("Phones:")
+            for phone in record.phones:
+                print(f"- {phone}")
+            print("Birthdays:")
+            for birthday in record.birthdays:
+                print(f"- {birthday}")
+            print()
+
 
     def get_birthdays_per_week(self, name):
         # Data structure to store birthdays for each day of the week
