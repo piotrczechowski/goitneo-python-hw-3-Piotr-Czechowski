@@ -1,11 +1,10 @@
 def input_error(func):
     def inner(*args, **kwargs):
         try:
-            return func(*args, **kwargs)
-        except ValueError:
-            return "Give me name and phone please."
+            func(*args, **kwargs)
+        except ValueError as e:
+            print("Error:", e)
+            return "invalid"
         except TypeError:
-            return "Invalid command. Please provide name and phone number()."
-        except IndexError:
-            return "Wrong index number."
+            return "Invalid command. Please provide name and phone number"
     return inner

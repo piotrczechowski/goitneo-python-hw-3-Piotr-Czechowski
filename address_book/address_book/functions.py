@@ -34,13 +34,15 @@ class AddressBook(UserDict):
                 print(f"- {birthday}")
             print()
 
+    @input_error
     def change_contact(self, name, new_phone):
         record = self.find(name)
-        if record:
-            record.phones = [Phone(new_phone)]
-            return "Contact updated."
-        else:
-            return "Contact not found."
+        if not record:
+            raise ValueError("Contact not found")
+        if len(new_phone) != 10: 
+            raise ValueError("Phone number must be exactly 10 digits")
+        record.phones = [Phone(new_phone)]
+        print(f"Contact updated {name}.")
 
     def get_birthdays_per_week(self, name):
         # Data structure to store birthdays for each day of the week

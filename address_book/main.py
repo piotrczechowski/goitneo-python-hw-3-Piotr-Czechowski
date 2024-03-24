@@ -37,7 +37,7 @@ def main():
             else:
                 name, new_phone = args
                 result = book.change_contact(name, new_phone)
-                print(result)
+                
         
         elif command == "phone":
             name = args[0]

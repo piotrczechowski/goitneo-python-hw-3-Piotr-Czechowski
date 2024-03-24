@@ -1,16 +1,6 @@
 from collections import UserDict
 import re
-
-def input_error(func):
-    def inner(*args, **kwargs):
-        try:
-            func(*args, **kwargs)
-        except ValueError as e:
-            print("Error:", e)
-            return "invalid"
-        except TypeError:
-            return "Invalid command. Please provide name and phone number"
-    return inner
+from .input_error import input_error
 
 
 class Field:
@@ -38,13 +28,7 @@ class Birthday(Field):
     
     def __str__(self):
          return str(self.value)
-    ''''
-    def __init__(self, value):
-        if not isinstance(value, str) or not re.match(r'^\d{2}\.\d{2}\.\d{4}$', value):
-            raise ValueError("Birthday must be in the format DD.MM.YYYY")
-        super().__init__(value)
-    '''
-
+    
 class Record:
     def __init__(self, name):
         self.name = Name(name)
@@ -62,25 +46,15 @@ class Record:
         
     def remove_phone(self, phone):
         self.phones = [p for p in self.phones if str(p) != phone]
-
-    def edit_phone(self, old_phone, new_phone):
-        for i, phone in enumerate(self.phones):
-            if str(phone) == old_phone:
-                self.phones[i] = Phone(new_phone)
-                break
     
     @input_error
     def add_birthday(self, birthday):
-        try:
-            if not isinstance(birthday, str) or not re.match(r'^\d{2}\.\d{2}\.\d{4}$', birthday):
-                raise ValueError("Birthday must be in the format DD.MM.YYYY")
-            else:
-                self.birthdays.append(Birthday(birthday))
-                print ("Date of birth added.")
-        except ValueError as e:
-            print(e)
-
-    
+        if not isinstance(birthday, str) or not re.match(r'^\d{2}\.\d{2}\.\d{4}$', birthday):
+            raise ValueError("Birthday must be in the format DD.MM.YYYY")
+        else:
+            self.birthdays.append(Birthday(birthday))
+            print ("Date of birth added.")
+        
 
     def show_birthday(self, name):
         if name in self.data:
