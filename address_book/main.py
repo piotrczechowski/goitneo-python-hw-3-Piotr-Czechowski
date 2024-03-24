@@ -24,11 +24,14 @@ def main():
             print("How can I help you?")
         
         elif command == "add":
-            name = args[0]
-            record = Record(name)
-            for phone in args[1:]:
-                record.add_phone(phone)
-            book.add_record(record)
+            if len(args) <=0:
+                print ("Invalid command. Please provide name and new phone number.")
+            else:
+                name = args[0]
+                record = Record(name)
+                for phone in args[1:]:
+                    record.add_phone(phone)
+                book.add_record(record)
             
         
         elif command == "change":
