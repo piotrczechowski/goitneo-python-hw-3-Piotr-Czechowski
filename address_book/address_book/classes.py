@@ -5,10 +5,11 @@ def input_error(func):
     def inner(*args, **kwargs):
         try:
             func(*args, **kwargs)
-        except ValueError:
+        except ValueError as e:
+            print("Error:", e)
             return "invalid"
         except TypeError:
-            return "Invalid command. Please provide name and phone number()."
+            return "Invalid command. Please provide name and phone number"
     return inner
 
 
@@ -50,17 +51,15 @@ class Record:
         self.phones = []
         self.birthdays = []
 
+   
     @input_error
     def add_phone(self, phone):
-        try:
-            if len(phone) != 10:
-                raise ValueError("Phone number must be exactly 10 digits")
-            else:    
-                self.phones.append(Phone(phone))
-                print("Contact added successfully.")
-        except ValueError as e:
-            print(e)
-
+        if len(phone) != 10:
+            raise ValueError("Phone number must be exactly 10 digits")
+        else:    
+            self.phones.append(Phone(phone))
+            print("Contact added successfully.")
+        
     def remove_phone(self, phone):
         self.phones = [p for p in self.phones if str(p) != phone]
 
@@ -70,10 +69,18 @@ class Record:
                 self.phones[i] = Phone(new_phone)
                 break
     
+    @input_error
     def add_birthday(self, birthday):
-        self.birthdays.append(Birthday(birthday))
+        try:
+            if not isinstance(birthday, str) or not re.match(r'^\d{2}\.\d{2}\.\d{4}$', birthday):
+                raise ValueError("Birthday must be in the format DD.MM.YYYY")
+            else:
+                self.birthdays.append(Birthday(birthday))
+                print ("Date of birth added.")
+        except ValueError as e:
+            print(e)
 
-
+    
 
     def show_birthday(self, name):
         if name in self.data:
