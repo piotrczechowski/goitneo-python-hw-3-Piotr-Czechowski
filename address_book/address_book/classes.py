@@ -55,7 +55,7 @@ class Record:
             self.birthdays.append(Birthday(birthday))
             print ("Date of birth added.")
         
-
+    @input_error
     def show_birthday(self, name):
         if name in self.data:
             if self.name[name].birthdays:

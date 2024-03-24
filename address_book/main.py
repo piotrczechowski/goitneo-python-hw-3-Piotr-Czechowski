@@ -3,9 +3,9 @@ from address_book.functions import AddressBook
 from address_book.parse_input import parse_input
 from address_book.classes import Phone
 
-
 def main():
     book = AddressBook()
+    
     print("Welcome to the assistant bot!")
 
     while True:
@@ -59,10 +59,30 @@ def main():
             book.show_all()
 
         elif command == "add-birthday":
-            name, birthday = args
-            record = book.find(name)
-            if record:
-                record.add_birthday(birthday)
+            if len(args) < 2:
+                print("Invalid command. Please provide both a name and a birthday.")
+            else:
+                name, birthday = args
+                record = book.find(name)
+                if record:
+                    record.add_birthday(birthday)
+        
+        elif command == "show-birthday":
+            if len(args) < 1:
+                print("Invalid command. Please provide a name.")
+            else:
+                name = args[0]  
+                book.show_birthday(name)
+
+        elif command == "birthdays":
+            next_week_birthdays = book.get_birthdays_within_next_week()
+            for day, birthdays in next_week_birthdays.items():
+            
+                birthday_names = [str(name) for name in birthdays]
+                print(f"{day}: {', '.join(birthday_names)}")
+
+        
+
         else:
             print("Command not found.")
 
@@ -70,116 +90,34 @@ if __name__ == "__main__":
     main()
 
 '''
-# Creation of a new address book 
+#Test users 
+
+# Instantiate the AddressBook
 book = AddressBook()
 
-# Creation of a entry for John
+# Create a record for user "John"
 john_record = Record("John")
+
+# Add phones to John's record
 john_record.add_phone("1234567890")
 john_record.add_phone("5555555555")
-john_record.add_birthday("22.06.2222")
 
-irmiona_record = Record('Irmina')
-irmiona_record.add_birthday('22.11.2222')
-
-
-#get_birthdays_per_week(book)
-
-
-# Add a John entry to the address book
+# Add John's record to the address book
 book.add_record(john_record)
-book.add_record(irmiona_record)
 
-#list all recortds
-for name, record in book.data.items():
-    print(record)
+# Add a birthday for John
+john_record.add_birthday("22.06.1990")
 
-book.show_birthday("Irmina")
+# Create a record for user "Amelia"
+amelia_record = Record("Amelia")
 
+# Add phones to Amelia's record
+amelia_record.add_phone("1234567890")
+amelia_record.add_phone("5555555555")
 
-# Creating and adding a new entry for Jane
-jane_record = Record("Jane")
-jane_record.add_phone("9876543210")
-book.add_record(jane_record)
+# Add Amelia's record to the address book
+book.add_record(amelia_record)
 
-# Displaying all entries in the contact list
-for name, record in book.data.items():
-    print(record)
-
-# Find and edit a phone number for John
-john = book.find("John")
-john.edit_phone("1234567890", "1112223333")
-
-print(john)  # Displaying: Contact name: John, phones: 1112223333; 5555555555
-
-# Searching for a specific phone number in John's entry
-found_phone = john.find_phone("5555555555")
-print(f"{john.name}: {found_phone}")  
-
-# Deletion: 5555555555
-
-# Deletion Jane's entry
-book.delete("Jane")
-
-# Displaying all entries in the contact list after delete operation
-for name, record in book.data.items():
-    print(record)
-
-'''
-'''
-# Creation of a new address book 
-book = AddressBook()
-
-# Creation of a entry for John
-john_record = Record("John")
-john_record.add_phone("1234567890")
-john_record.add_phone("5555555555")
-john_record.add_birthday("22.06.2222")
-
-irmiona_record = Record('Irmina')
-irmiona_record.add_birthday('22.11.2222')
-
-
-#get_birthdays_per_week(book)
-
-
-# Add a John entry to the address book
-book.add_record(john_record)
-book.add_record(irmiona_record)
-
-#list all recortds
-for name, record in book.data.items():
-    print(record)
-
-book.show_birthday("Irmina")
-
-
-# Creating and adding a new entry for Jane
-jane_record = Record("Jane")
-jane_record.add_phone("9876543210")
-book.add_record(jane_record)
-
-# Displaying all entries in the contact list
-for name, record in book.data.items():
-    print(record)
-
-# Find and edit a phone number for John
-john = book.find("John")
-john.edit_phone("1234567890", "1112223333")
-
-print(john)  # Displaying: Contact name: John, phones: 1112223333; 5555555555
-
-# Searching for a specific phone number in John's entry
-found_phone = john.find_phone("5555555555")
-print(f"{john.name}: {found_phone}")  
-
-# Deletion: 5555555555
-
-# Deletion Jane's entry
-book.delete("Jane")
-
-# Displaying all entries in the contact list after delete operation
-for name, record in book.data.items():
-    print(record)
-
+# Add a birthday for Amelia
+amelia_record.add_birthday("24.03.2024")
 '''

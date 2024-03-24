@@ -2,7 +2,7 @@ from collections import UserDict
 from datetime import datetime
 from .classes import Phone
 from .input_error import input_error
-
+from datetime import datetime, timedelta
 
 
 class AddressBook(UserDict):
@@ -44,34 +44,24 @@ class AddressBook(UserDict):
         record.phones = [Phone(new_phone)]
         print(f"Contact updated {name}.")
 
-    def get_birthdays_per_week(self, name):
-        # Data structure to store birthdays for each day of the week
-        birthdays_per_week = {
-            'Monday': [], 
-            'Tuesday': [], 
-            'Wednesday': [],
-            'Thursday': [], 
-            'Friday': [], 
-            'Saturday': [], 
-            'Sunday': []
-        }
+    def get_birthdays_within_next_week(self):
         
-        # Iterate over each record in the address book
-        for record in self.data.values():
-            # Iterate over each birthday in the record
-            for birthday in record.birthdays:
-                # Convert birthday to date and time object
-                birthday_date = datetime.strptime(birthday.value, '%d.%m.%Y')
-                
-                # Calculate the day of the week for the birthday
-                day_of_week = birthday_date.strftime('%A')
-                
-                # Adjust birthday to Monday if it falls on the weekend
-                if day_of_week in ['Saturday', 'Sunday']:
-                    day_of_week = 'Monday'
-                
-                # Store the birthday on the corresponding day of the week
-                birthdays_per_week[day_of_week].append(birthday.value)
-        
-        return birthdays_per_week
+        today = datetime.now().date()
+
        
+        next_week = today + timedelta(days=7)
+        birthdays_within_next_week = {}
+        for record in self.data.values():
+            for birthday in record.birthdays:
+                
+                birthday_str = str(birthday)
+               
+                birthday_date = datetime.strptime(birthday_str, '%d.%m.%Y').date()
+                
+                if today <= birthday_date <= next_week:
+                    
+                    day_of_week = birthday_date.strftime('%A')
+                    
+                    birthdays_within_next_week.setdefault(day_of_week, []).append(record.name)
+
+        return birthdays_within_next_week
