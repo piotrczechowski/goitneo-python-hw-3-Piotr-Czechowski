@@ -1,5 +1,6 @@
 from collections import UserDict
 from datetime import datetime
+from .classes import Phone
 
 class AddressBook(UserDict):
     def add_record(self, record):
@@ -12,8 +13,6 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
     
-    
-
     def show_birthday(self, name):
         if name in self.data:
             record = self.data[name]
@@ -32,6 +31,13 @@ class AddressBook(UserDict):
                 print(f"- {birthday}")
             print()
 
+    def change_contact(self, name, new_phone):
+        record = self.find(name)
+        if record:
+            record.phones = [Phone(new_phone)]
+            return "Contact updated."
+        else:
+            return "Contact not found."
 
     def get_birthdays_per_week(self, name):
         # Data structure to store birthdays for each day of the week

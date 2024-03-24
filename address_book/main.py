@@ -1,6 +1,7 @@
 from address_book.classes import Record
 from address_book.functions import AddressBook
 from address_book.parse_input import parse_input
+from address_book.classes import Phone
 
 
 def main():
@@ -31,14 +32,12 @@ def main():
             print("Contact added successfully.")
         
         elif command == "change":
-            name = args[0]
-            record = book.find(name)
-            if record:
-                old_phone, new_phone = args[1], args[2]
-                record.edit_phone(old_phone, new_phone)
-                print("Phone number updated successfully.")
+            if len(args) != 2:
+                print("Invalid command. Please provide name and new phone number.")
             else:
-                print("Contact not found.")
+                name, new_phone = args
+                result = book.change_contact(name, new_phone)
+                print(result)
         
         elif command == "phone":
             name = args[0]
@@ -48,6 +47,14 @@ def main():
             else:
                 print("Contact not found.")
         
+        elif command == "delete":
+            name = args[0]
+            if book.find(name):
+                book.delete(name)
+                print('Contact deleted successfully.')
+            else: 
+                print("Contact not found")
+
         elif command == "all":
             book.show_all()
 
@@ -61,7 +68,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 '''
 # Creation of a new address book 
