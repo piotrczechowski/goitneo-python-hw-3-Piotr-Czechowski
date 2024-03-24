@@ -29,7 +29,7 @@ def main():
             for phone in args[1:]:
                 record.add_phone(phone)
             book.add_record(record)
-            print("Contact added successfully.")
+            
         
         elif command == "change":
             if len(args) != 2:
@@ -64,7 +64,7 @@ def main():
             if record:
                 record.add_birthday(birthday)
         else:
-            print("Contact not found.")
+            print("Command not found.")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,17 @@
 from collections import UserDict
 import re
 
+def input_error(func):
+    def inner(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except ValueError:
+            return "invalid"
+        except TypeError:
+            return "Invalid command. Please provide name and phone number()."
+    return inner
+
+
 class Field:
     def __init__(self, value):
         self.value = value
@@ -13,9 +24,12 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, value):
-        if len(value) != 10:
-            raise ValueError("Phone number must be exactly 10 digits")
-        super().__init__(value)
+        self.value = value
+    
+    def __str__(self):
+         return str(self.value)
+
+
 
 class Birthday(Field):
     def __init__(self, value):
@@ -29,8 +43,16 @@ class Record:
         self.phones = []
         self.birthdays = []
 
+    @input_error
     def add_phone(self, phone):
-        self.phones.append(Phone(phone))
+        try:
+            if len(phone) != 10:
+                raise ValueError("Phone number must be exactly 10 digits")
+            else:    
+                self.phones.append(Phone(phone))
+                print("Contact added successfully.")
+        except ValueError as e:
+            print(e)
 
     def remove_phone(self, phone):
         self.phones = [p for p in self.phones if str(p) != phone]
