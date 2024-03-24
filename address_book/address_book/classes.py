@@ -33,9 +33,16 @@ class Phone(Field):
 
 class Birthday(Field):
     def __init__(self, value):
+        self.value = value
+    
+    def __str__(self):
+         return str(self.value)
+    ''''
+    def __init__(self, value):
         if not isinstance(value, str) or not re.match(r'^\d{2}\.\d{2}\.\d{4}$', value):
             raise ValueError("Birthday must be in the format DD.MM.YYYY")
         super().__init__(value)
+    '''
 
 class Record:
     def __init__(self, name):
@@ -65,13 +72,8 @@ class Record:
     
     def add_birthday(self, birthday):
         self.birthdays.append(Birthday(birthday))
-        
-    def add_birthday_contact(self, name, birthday):
-        if name in self.data:
-            self.data[name].add_birthday_contact(birthday)
-            print("birthday added")
-        else:
-            raise ValueError('Contact not found')
+
+
 
     def show_birthday(self, name):
         if name in self.data:
